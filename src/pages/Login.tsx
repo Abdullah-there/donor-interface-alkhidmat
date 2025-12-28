@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import Navbar from '@/components/Navbar';
 import { supabase } from '@/supabase-client';
 import { useAuth } from '@/context/auth-context';
+import { toast } from 'sonner';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,8 +46,6 @@ const Login = () => {
       return;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     if (isLogin) {
       const { error } = await supabase.auth.signInWithPassword({ email: formData.email, password: formData.password });
 
@@ -55,10 +54,25 @@ const Login = () => {
         return;
       }
     } else {
+      const dataToAdd = {
+        email: formData.email,
+        role: "donor",
+        isAdmin: false,
+        isLoggedIn: true,
+      }
+
+      const { error: e } = await supabase.from("users").insert(dataToAdd).single();
+
+      if (e) {
+        toast.error("Error Saving Data");
+        console.error(e)
+        return;
+      }
+
       const { error } = await supabase.auth.signUp({
         email: formData.email, password: formData.password, options: {
           data: {
-            full_name: formData.name
+            full_name: formData.name,
           }
         }
       });
@@ -67,8 +81,6 @@ const Login = () => {
         console.error("Error Logging in", error.message);
         return;
       }
-      
-      alert("Check Your Email For Confirmation");
     }
 
     setIsLoading(false);

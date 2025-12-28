@@ -89,7 +89,7 @@ const Donate = () => {
   const { session } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [amount, setAmount] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('online');
+  const [paymentMethod, setPaymentMethod] = useState('Online Wallet');
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ const Donate = () => {
   const selectedCategoryData = categories.find((c) => c.id === selectedCategory);
   const quickAmounts = [25, 50, 100, 250, 500];
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const MakeDonation = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!selectedCategory) {
@@ -171,7 +171,7 @@ const Donate = () => {
         </div>
       </section>
 
-      <form onSubmit={handleSubmit} className="flex-1 py-12">
+      <form onSubmit={MakeDonation} className="flex-1 py-12">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto space-y-12">
             <div className="space-y-6">
@@ -264,7 +264,7 @@ const Donate = () => {
                           : 'border-border hover:border-primary/50'
                       }`}
                     >
-                      <RadioGroupItem value={method.id} id={method.id} className="sr-only" />
+                      <RadioGroupItem value={method.title} id={method.id} className="sr-only" />
                       <method.icon className="w-8 h-8 text-primary mb-3" />
                       <span className="font-semibold text-foreground">{method.title}</span>
                       <span className="text-sm text-muted-foreground">{method.description}</span>
