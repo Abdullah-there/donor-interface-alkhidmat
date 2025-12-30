@@ -9,6 +9,7 @@ import Notification from "./pages/Notification";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Acknowledgment from "./pages/Acknowledgment";
+import DonationHistory from "./pages/DonationHistory";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/notification" element={<Notification />} />
           <Route path="/acknowledgment" element={<Acknowledgment />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/history" element={<DonationHistory />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

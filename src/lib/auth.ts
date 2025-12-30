@@ -12,9 +12,9 @@ export interface Donation {
   userId: string;
   category: string;
   amount: number;
-  paymentMethod: string;
+  payment_method: string;
   transactionId: string;
-  date?: string;
+  created_at?: string;
   status: 'success' | 'failed';
 }
 
@@ -84,7 +84,7 @@ export const saveDonation = (donation: Omit<Donation, 'id' | 'transactionId' | '
     ...donation,
     id: crypto.randomUUID(),
     transactionId: `TXN${Date.now()}${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-    date: new Date().toISOString(),
+    created_at: new Date().toISOString(),
     status: 'success',
   };
   

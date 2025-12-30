@@ -38,6 +38,7 @@ const Navbar = () => {
     { href: '/', label: 'Home' },
     { href: '/donate', label: 'Donate' },
     { href: '/contact', label: 'Contact Us' },
+    { href: '/history', label: 'Donation History' },
   ];
 
   useEffect(() => {
@@ -49,9 +50,9 @@ const Navbar = () => {
         toast.error("Error Fetching User");
         return;
       }
-
+      console.log(data)
       const currentUser = data.filter((d) => d.role === "donor");
-      console.log(currentUser[0].image_url)
+      console.log(currentUser[0])
       setImageurl(currentUser[0].image_url)
     }
     fetchUser();

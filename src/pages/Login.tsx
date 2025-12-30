@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import { supabase } from '@/supabase-client';
 import { useAuth } from '@/context/auth-context';
 import { toast } from 'sonner';
+import bcrypt from 'bcryptjs';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,11 +55,14 @@ const Login = () => {
         return;
       }
     } else {
+
+      const hashedPassword = await bcrypt.hash(formData.password, 10);
       const dataToAdd = {
         email: formData.email,
         role: "donor",
         isAdmin: false,
         isLoggedIn: true,
+        password: hashedPassword,
       }
 
       const { error: e } = await supabase.from("users").insert(dataToAdd).single();
