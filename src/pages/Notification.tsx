@@ -41,7 +41,7 @@ const Notification = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
+      {/* <Navbar /> */}
       
       <div className="flex-1 flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-lg">

@@ -66,19 +66,19 @@ const categories = [
 
 const paymentMethods = [
   {
-    id: 'cash',
+    id: 'Cash',
     title: 'Cash',
     description: 'Visit our office or arrange pickup',
     icon: DollarSign,
   },
   {
-    id: 'online',
+    id: 'Online Wallet',
     title: 'Online Wallet',
     description: 'PayPal, Stripe, or local wallets',
     icon: Wallet,
   },
   {
-    id: 'bank',
+    id: 'Bank Transfer',
     title: 'Bank Transfer',
     description: 'Direct bank transfer',
     icon: Building2,

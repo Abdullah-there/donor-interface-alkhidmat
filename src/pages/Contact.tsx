@@ -6,12 +6,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/context/auth-context';
+import { supabase } from '@/supabase-client';
+import { toast } from 'sonner';
 
 const Contact = () => {
+  const { session } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: session?.user.user_metadata.full_name,
+    email: session?.user.email,
     subject: '',
     message: '',
   });
@@ -26,11 +30,26 @@ const Contact = () => {
 
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const dataToAdd = {
+      user_email: session?.user.email,
+      title: "Message Recieved",
+      message: `Your Message has been sent, the authorities will contact you shortly!`,
+    }
 
-    alert('Message Sent, We will contact you Shortly!');
+    const { error } = await supabase.from("acknowledgment").insert(dataToAdd).single();
 
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    if (error) {
+      toast.error("Error Sending message")
+      return;
+    }
+
+    setFormData({
+      name: session?.user.user_metadata.full_name,
+      email: session?.user.email,
+      subject: '',
+      message: '',
+    });
+    toast.success("Message Sent, Will contact you shortly");
     setIsSubmitting(false);
   };
 
@@ -85,7 +104,7 @@ const Contact = () => {
             <div className="order-2 lg:order-1">
               <div className="bg-card p-8 rounded-2xl shadow-card border border-border">
                 <h2 className="text-2xl font-bold text-foreground mb-6">Send us a Message</h2>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
@@ -96,6 +115,7 @@ const Contact = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="input-style"
+                        readOnly
                       />
                     </div>
                     <div className="space-y-2">
@@ -107,6 +127,7 @@ const Contact = () => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="input-style"
+                        readOnly
                       />
                     </div>
                   </div>
